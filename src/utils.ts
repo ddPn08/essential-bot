@@ -21,7 +21,16 @@ export const getTextMessage = async (
     const guild = await client.guilds.fetch(guildId)
     const channel = await guild.channels.fetch(channelId)
     const textChannel = await channel?.fetch()
-    if (!textChannel || textChannel.type !== ChannelType.GuildText) return
+    if (!textChannel) return
+    if (
+        !(
+            textChannel.type === ChannelType.AnnouncementThread ||
+            textChannel.type === ChannelType.GuildAnnouncement ||
+            textChannel.type === ChannelType.GuildText ||
+            textChannel.type === ChannelType.PublicThread
+        )
+    )
+        return
     return textChannel.messages.fetch(messageId)
 }
 
