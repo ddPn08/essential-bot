@@ -1,21 +1,31 @@
 {
-  "name": "my-typescript",
-  "type": "module",
+  "name": "ai-art-laboratory-bot",
   "scripts": {
     "eslint": "eslint src/**/*.{ts,tsx}",
-    "prettier": "prettier --write src/**/*.{ts,tsx}"
+    "prettier": "prettier --write src/**/*.{ts,tsx}",
+    "dev": "cross-env NODE_ENV='development' ts-node --files src"
   },
   "devDependencies": {
+    "@sapphire/decorators": "^6.0.0",
+    "@sapphire/plugin-hmr": "^2.0.0",
     "@types/eslint": "^8.21.2",
+    "@types/node": "^18.15.3",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.7.0",
     "eslint-import-resolver-typescript": "^3.5.3",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-unused-imports": "^2.0.0",
     "prettier": "^2.8.4",
+    "tsup": "^6.6.3",
     "typescript": "^5.0.2"
   },
-  "packageManager": "yarn@3.2.2"
+  "packageManager": "yarn@3.2.2",
+  "dependencies": {
+    "@sapphire/framework": "^4.2.2",
+    "discord.js": "^14.8.0",
+    "dotenv": "^16.0.3"
+  }
 }
