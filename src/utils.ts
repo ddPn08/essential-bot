@@ -9,6 +9,7 @@ import {
     Message,
     MessagePayload,
     MessageTarget,
+    TextBasedChannel,
 } from 'discord.js'
 
 export const getTextMessage = async (
@@ -34,7 +35,7 @@ export const getTextMessage = async (
     return textChannel.messages.fetch(messageId)
 }
 
-export const createMessageQuoteEmbed = (message: Message<true>) => {
+export const createMessageQuoteEmbeds = (message: Message<true>) => {
     const embed = new EmbedBuilder()
         .setColor(Colors.Aqua)
         .setURL(message.url)
@@ -43,12 +44,12 @@ export const createMessageQuoteEmbed = (message: Message<true>) => {
             iconURL: message.author.displayAvatarURL(),
         })
         .setDescription(message.content)
+    const images = []
     for (const [, attachment] of message.attachments) {
         if (!attachment.contentType?.startsWith('image/')) continue
-        embed.setImage(attachment.url)
-        break
+        images.push(new EmbedBuilder().setURL(message.url).setImage(attachment.url))
     }
-    return embed
+    return [embed, ...images]
 }
 
 export const createMessageQuotePayload = (
@@ -57,7 +58,7 @@ export const createMessageQuotePayload = (
     reply = false,
 ) =>
     new MessagePayload(target, {
-        embeds: [createMessageQuoteEmbed(message)],
+        embeds: createMessageQuoteEmbeds(message),
         components: [
             new ActionRowBuilder<ButtonBuilder>().addComponents(
                 new ButtonBuilder()
@@ -72,3 +73,10 @@ export const createMessageQuotePayload = (
         ],
         reply: reply ? { messageReference: target as Message } : undefined,
     })
+
+export const isNsfwTextBasedChannel = (channel: TextBasedChannel) => {
+    return (
+        (channel.type === ChannelType.GuildText || channel.type === ChannelType.GuildVoice) &&
+        channel.nsfw
+    )
+}

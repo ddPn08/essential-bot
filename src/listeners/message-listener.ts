@@ -2,7 +2,7 @@ import { ApplyOptions } from '@sapphire/decorators'
 import { Events, Listener, ListenerOptions } from '@sapphire/framework'
 import type { ClientEvents } from 'discord.js'
 
-import { createMessageQuotePayload, getTextMessage } from '../utils'
+import { createMessageQuotePayload, getTextMessage, isNsfwTextBasedChannel } from '../utils'
 
 @ApplyOptions<ListenerOptions>({
     event: Events.MessageCreate,
@@ -27,6 +27,9 @@ export class UserEvent extends Listener {
                 messageId,
             )
             if (!target) return
+
+            const channel = await target.channel.fetch()
+            if (isNsfwTextBasedChannel(channel) !== isNsfwTextBasedChannel(msg.channel)) return
 
             const payload = createMessageQuotePayload(msg, target, true)
             msg.reply(payload)
