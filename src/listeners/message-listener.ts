@@ -10,7 +10,6 @@ import { createMessageQuotePayload, getTextMessage } from '../utils'
 export class UserEvent extends Listener {
     public async run(...args: ClientEvents['messageCreate']) {
         const [msg] = args
-        if (msg.channelId !== '1025329769518202891') return
         const re =
             /https:\/\/(?:www\.)?discord(?:app)?\.com\/channels\/(\d{17,19})\/(\d{17,19})\/(\d{17,19})/gi
         const matches = msg.content.match(re)

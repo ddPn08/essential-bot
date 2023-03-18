@@ -12,7 +12,8 @@ export class UserEvent extends Listener {
         const [reaction, author] = args
         if (reaction.message.inGuild()) {
             const user = await author.fetch()
-            const payload = createMessageQuotePayload(user, reaction.message)
+            const message = await reaction.message.fetch()
+            const payload = createMessageQuotePayload(user, message)
             author.send(payload)
         }
     }
