@@ -36,14 +36,11 @@ export const getTextMessage = async (
 }
 
 export const createMessageQuoteEmbeds = (message: Message<true>) => {
-    const embed = new EmbedBuilder()
-        .setColor(Colors.Aqua)
-        .setURL(message.url)
-        .setAuthor({
-            name: message.author.username,
-            iconURL: message.author.displayAvatarURL(),
-        })
-        .setDescription(message.content)
+    const embed = new EmbedBuilder().setColor(Colors.Aqua).setURL(message.url).setAuthor({
+        name: message.author.username,
+        iconURL: message.author.displayAvatarURL(),
+    })
+    if (message.content) embed.setDescription(message.content)
     const images = []
     for (const [, attachment] of message.attachments) {
         if (!attachment.contentType?.startsWith('image/')) continue
