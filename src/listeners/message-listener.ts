@@ -1,6 +1,6 @@
 import { ApplyOptions } from '@sapphire/decorators'
 import { Events, Listener, ListenerOptions } from '@sapphire/framework'
-import type { ClientEvents } from 'discord.js'
+import { PermissionFlagsBits, type ClientEvents } from 'discord.js'
 
 import { createMessageQuotePayload, getTextMessage, isNsfwTextBasedChannel } from '../utils'
 
@@ -30,6 +30,12 @@ export class UserEvent extends Listener {
 
             const channel = await target.channel.fetch()
             if (isNsfwTextBasedChannel(channel) !== isNsfwTextBasedChannel(msg.channel)) return
+            if (
+                !channel
+                    .permissionsFor(target.guild.roles.everyone)
+                    ?.has(PermissionFlagsBits.ViewChannel)
+            )
+                return
 
             const payload = createMessageQuotePayload(msg, target, true)
             msg.reply(payload)
