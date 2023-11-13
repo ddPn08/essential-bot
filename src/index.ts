@@ -19,9 +19,7 @@ const client = new SapphireClient({
         GatewayIntentBits.DirectMessages,
     ],
     partials: [Partials.Message, Partials.Reaction],
-    hmr: {
-        enabled: isDev,
-    },
+    
 })
 
 client.stores.forEach((store, key) => {
